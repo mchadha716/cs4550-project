@@ -10,6 +10,8 @@
 	For this experiment, we tested to see how much realtime data we could access using the API. The most important data we wanted to obtain was the first expected arrival time for a train or bus closest to the user, so information we needed to access using the API was the train station's location and the train's current position/time away from that station. Some additional info that we tested that are "nice to have" are the schedule for the train station (e.g. when are later trains coming). 
 
 ### TODO: Experiment 1 result / learn
+- train lines don't have gps info (have to use stops)
+- we can filter stops by lat and long with a specific radius, default 0.5 mi (stops are returned closest first)
 
 ## Experiment 2: HTML Geolocation API
 	For this experiment, we tested the ability to obtain the user's current location. In addition, we also checked to see if we could get the nearest train or bus stop based on that current location. 
