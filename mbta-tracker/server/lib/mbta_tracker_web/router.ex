@@ -24,6 +24,7 @@ defmodule MbtaTrackerWeb.Router do
     pipe_through :api
 
     resources "/searches", SearchController, except: [:new, :edit]
+    post "/current_location" , LocationController
   end
 
   # Enables LiveDashboard only for development
