@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.scss';
+import * as ch from './socket'
 require('dotenv').config();
 
 async function fetchSearches() {
@@ -40,12 +41,17 @@ function App() {
 
   const [searches, setSearches] = useState([]);
   const [position, setPosition] = useState(new Map());
+  const [stops, setStops] = useState([])
 
   useEffect(() => {
     if (searches.length === 0) {
       fetchSearches().then((ss) => setSearches(ss));
     }
   }, [searches]);
+
+  useEffect(() => {
+    ch.ch_join(setStops);
+  })
 
   function getLocation() {
     if (navigator.geolocation) {
@@ -62,6 +68,7 @@ function App() {
       ["longitude", position.coords.longitude]
     ]);
     setPosition(newPos);
+    ch.ch_push(newPos);
   }
 
   getLocation();
