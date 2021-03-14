@@ -24,7 +24,22 @@ url = "https://api-v3.mbta.com/predictions?api_key=" <> api_key <>
 resp = HTTPoison.get!(url)
 resp = Jason.decode!(resp.body)
 
+data = Enum.map(resp["data"], fn x -> 
+	url = "https://api-v3.mbta.com/stops?api_key=" <> api_key <> 
+		"&filter[id]=" <> x["relationships"]["stop"]["data"]["id"]
+	stopInfo = HTTPoison.get!(url)
+	stopInfo = Jason.decode!(stopInfo.body)
+	stop = Enum.at(stopInfo["data"], 0)
+
+	x = x 
+	|> Map.put("name", stop["attributes"]["name"])
+	|> Map.put("latitude", stop["attributes"]["latitude"])
+	|> Map.put("longitude", stop["attributes"]["longitude"])
+	|> Map.put("vehicle_type", stop["attributes"]["vehicle_type"])
+end)
+
+resp = Map.put(resp, "data", data)
+
 #name = Enum.at(resp["data"], 1)["attributes"]["name"]
 
-NuSearch = Repo.insert!(%Search{latitude: lat, longitude: lon, 
-	response: resp}) 
+Repo.insert!(%Search{latitude: lat, longitude: lon, response: resp}) 

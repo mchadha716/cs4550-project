@@ -1,17 +1,10 @@
 import { useState, useEffect } from 'react';
 import './App.scss';
+require('dotenv').config();
 
 async function fetchSearches() {
   let searches = await fetch("http://localhost:4000/api/v1/searches", {});
   let resp = await searches.json();
-
-  return resp.data;
-}
-
-async function fetchStopInfo(id) {
-  let resp = await fetch("https://api-v3.mbta.com/stops?api_key=" 
-    + "d1fc0786f5364ae7bc52236ea3d5fce6&filter[id]=" + id, {});
-  let resp = await resp.json();
 
   return resp.data;
 }
@@ -45,20 +38,21 @@ function App() {
         <tbody>
           {searches.map(s => {
 
+            return s.response.data.map(r => {
 
-
-            return s.response.data.map(r => (
-              <tr key={r.id}>
-                <td>{}</td>
-                <td>{r.relationships.stop.data.id}</td>
-                <td>{}</td>
-                <td>{}</td>
-                <td>{}</td>
-                <td>{}</td>
-                <td>{}</td>
-              </tr>
-            ))}
-          )}
+              return (
+                <tr key={r.id}>
+                  <td>{r.name}</td>
+                  <td>{r.relationships.stop.id}</td>
+                  <td>{r.vehicle_type}</td>
+                  <td>{r.attributes.arrival_time}</td>
+                  <td>{r.attributes.departure_time}</td>
+                  <td>{r.latitude}</td>
+                  <td>{r.longitude}</td>
+                </tr>
+              )
+            })
+          })}
         </tbody>
       </table>
     </div>

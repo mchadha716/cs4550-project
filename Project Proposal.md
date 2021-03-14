@@ -7,11 +7,9 @@
 	obtain the specific trains (and maybe buses) and list their info to the user in list form in the app. The realtime behavior will be the app pushes live info updates about the trains (and maybe buses). Some persistent state that will be stored in a Postgres DB will be the user's default station, other saved stations, and maybe favorite destinations along the different line. Something "neat" the app is going to do is use the HTML Geolocation API to obtain the users' current position to show the trains (and maybe buses) closest to the user at that time. We may also include a feature that allows the user to type in a location, and the app would show info on the trains (and maybe buses) close to that specific area. 
 
 ## Experiment 1: MBTA API
-	For this experiment, we tested to see how much realtime data we could access using the API. The most important data we wanted to obtain was the first expected arrival time for a train or bus closest to the user, so information we needed to access using the API was the train station's location and the train's current position/time away from that station. Some additional info that we tested that are "nice to have" are the schedule for the train station (e.g. when are later trains coming). 
+	For this experiment, we tested to see how much realtime data we could access using the API. The most important data we wanted to obtain was the first expected arrival/departure time for a train or bus closest to the user, so information we needed to access using the API was the train station's location and the train's current position/time away from that station. 
 
-### TODO: Experiment 1 result / learn
-- train lines don't have gps info (have to use stops)
-- we can filter stops by lat and long with a specific radius, default 0.5 mi (stops are returned closest first)
+	From this experiment, we learned how to use the API to get the specific info and display that information to the web UI. Train lines themselves do not have GPS info, so we have to use individual stops. Individual stops, however, have latitude and longitude data that can be used to filter stops and predictions. We can use these filters to find train and bus stops nearby a given location. The default radius for "nearby" is 0.5 mi. In addition, it appears that the closest stops are returned first.
 
 ## Experiment 2: HTML Geolocation API
 	For this experiment, we tested the ability to obtain the user's current location. In addition, we also checked to see if we could get the nearest train or bus stop based on that current location. 
